@@ -1,8 +1,15 @@
-{% extends 'base.html' %}
-
-{% block content %}
-
-    <br>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Avaliaçãode</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
+</head>
+<body>
+    <h1>Sistema de Avaliação de Alunos </h1>
+        <h2>Olá ! Essa é a tela de cadastro da Sondagem</h2>
+        <br>
     <h2>Cadastro da Sondagem</h2>
 
     <form action="/cad_sondagem" method="post" >
@@ -62,4 +69,5 @@
         {% endfor %}
     </table>    
 
-{% endblock %}
+</body>
+</html>

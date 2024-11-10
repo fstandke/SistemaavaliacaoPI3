@@ -1,8 +1,14 @@
-{% extends 'base.html' %}
-
-{% block content %}
-
-      
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Avaliaçãode</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
+</head>
+<body>
+    <h1>Sistema de Avaliação de Alunos </h1>
+        <h2>Olá ! Essa é a tela de cadastro da Turma</h2>
         <br>
     <h2>Cadastro da Turma</h2>
 
@@ -17,8 +23,8 @@
         {{form.id_professor}} <br>
         {{form.submit()}}
     </form>
-
-
+    
+    
 <br>
 
     <br>
@@ -33,7 +39,7 @@
             <th>
                 Id do Professor
             </th>
-
+            
         </tr>
         {% for turma in turma_list:%}
             <tr>
@@ -46,9 +52,10 @@
                 <td>
                     {{ turma[3] }}
                 </td>
-
+                
             </tr>
         {% endfor %}
     </table>    
 
-{% endblock %}
+</body>
+</html>
