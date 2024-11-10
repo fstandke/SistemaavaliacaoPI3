@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Avaliaçãode</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
+</head>
+<body>
+    <h1>Sistema de Avaliação de Alunos </h1>
+        <h2>Olá ! Essa é a tela de cadastro da Sondagem</h2>
+        <br>
+    <h2>Cadastro da Sondagem</h2>
+
+    <form action="/cad_sondagem" method="post" >
+      {{form.csrf_token}}
+        {{form.hidden_tag()}}
+        {{form.materia.label}}
+        {{form.materia}} <br>
+        {{form.campo_semantico.label}}
+        {{form.campo_semantico}} <br>
+        {{form.valores_ditados.label}}
+        {{form.valores_ditados}} <br>
+        {{form.data_sondagem.label}}
+        {{form.data_sondagem}} <br>
+        {{form.submit()}}
+    </form>
+
+
+<br>
+
+    <br>
+    <table border="1">
+        <tr bgcolor="yellow">
+            <th>
+                ID da Sondagem   
+            </th>
+            <th>
+                Matéria   
+            </th>
+            <th>
+                Campo Semantico
+            </th>
+            <th>
+                Valores Ditados
+            </th>
+            <th>
+                Data da Sondagem
+            </th>
+        </tr>
+        {% for sondagem in sondagem_list:%}
+            <tr>
+                <td>
+                    {{ sondagem[0] }}
+                </td>
+                <td>
+                    {{ sondagem[1] }}
+                </td>    
+                <td>
+                    {{ sondagem[2] }}
+                </td>
+                <td>
+                    {{ sondagem[3] }}
+                </td>
+                <td>
+                    {{ sondagem[4] }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>    
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+h1 {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-overflow: ellipsis;
+  color:#020279;
+  background: linear-gradient(0deg, #e7f9f9, #fde85d);
+  }
+  
+

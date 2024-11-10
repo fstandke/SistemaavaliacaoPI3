@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Avaliaçãode</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
+</head>
+<body>
+    <h1>Sistema de Avaliação de Alunos </h1>
+        <h2>Olá ! Essa é a tela de cadastro de Alunos</h2>
+        <br>
+    <h2>Cadastro de Alunos</h2>
+
+    <form action="/cad_aluno" method="post" >
+      {{form.csrf_token}}
+        {{form.hidden_tag()}}
+        {{form.nome_aluno.label}}
+        {{form.nome_aluno}} <br>
+        {{form.nome_responsavel1.label}}
+        {{form.nome_responsavel1}} <br>
+        {{form.nome_responsavel2.label}}
+        {{form.nome_responsavel2}} <br>
+        {{form.data_nascimento.label}}
+        {{form.data_nascimento}} <br>
+        {{form.telefone_contato.label}}
+        {{form.telefone_contato}} <br>
+        {{form.id_turma.label}}
+        {{form.id_turma}} <br>
+        {{form.submit()}}
+    </form>
+
+
+<br>
+
+    <br>
+    <table border="1">
+        <tr bgcolor="yellow">
+            <th>
+               Nome do Aluno   
+            </th>
+            <th>
+                Nome Responsável 1
+            </th>
+            <th>
+                Nome Responsável 2
+            </th>
+            <th>
+                Data de Nascimento
+            </th>
+            <th>
+                Telefone de Contato
+            </th>
+            <th>
+                ID da Turma
+            </th>
+        </tr>
+        {% for aluno in aluno_list:%}
+            <tr>
+                <td>
+                    {{ aluno[1] }}
+                </td>
+                <td>
+                    {{ aluno[2] }}
+                </td>    
+                <td>
+                    {{ aluno[3] }}
+                </td>
+                <td>
+                    {{ aluno[4] }}
+                </td>
+                <td>
+                    {{ aluno[5] }}
+                </td>
+                <td>
+                    {{ aluno[6] }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>    
+
+</body>
+</html>

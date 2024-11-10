@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Avaliaçãode</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
+</head>
+<body>
+    <h1>Sistema de Avaliação de Alunos </h1>
+        <h2>Olá ! Essa é a tela de cadastro de Avaliações</h2>
+        <br>
+    <h2>Cadastro de Avaliações</h2>
+
+    <form action="/cad_avaliacao" method="post" >
+      {{form.csrf_token}}
+        {{form.hidden_tag()}}
+        {{form.data_avaliacao.label}}
+        {{form.data_avaliacao}} <br>
+        {{form.hipotese_escrita.label}}
+        {{form.hipotese_escrita}} <br>
+        {{form.id_aluno.label}}
+        {{form.id_aluno}} <br>
+        {{form.id_sondagem.label}}
+        {{form.id_sondagem}} <br>
+        {{form.submit()}}
+    </form>
+
+
+<br>
+
+    <br>
+    <table border="1">
+        <tr bgcolor="yellow">
+            <th>
+               Data da Avaliação
+            </th>
+            <th>
+                Hipótese de Escrita
+            </th>
+            <th>
+                ID do Aluno
+            </th>
+            <th>
+                ID da Sondagem
+            </th>
+            
+        </tr>
+        {% for avaliacao in avaliacao_list:%}
+            <tr>
+                <td>
+                    {{ avaliacao[1] }}
+                </td>
+                <td>
+                    {{ avaliacao[2] }}
+                </td>    
+                <td>
+                    {{ avaliacao[3] }}
+                </td>
+                <td>
+                    {{ avaliacao[4] }}
+                </td>
+               
+            </tr>
+        {% endfor %}
+    </table>    
+
+</body>
+</html>

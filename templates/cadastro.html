@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Avaliaçãode</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
+</head>
+<body>
+    <h1>Sistema de Avaliação de Alunos </h1>
+        <h2>Olá {{name}} ! Essa é a tela de cadastro</h2>
+        <br>
+    <h2>Cadastro de Professor</h2>
+        <form action="/cad_professor" method="post" autocomplete="off">
+            <p><label for="nome_prof">Nome completo:</label>
+                <input type="text" name="nome_prof" id="nome_prof"></p>
+            <p><label for="email_prof">E-mail:</label>
+            <input type="text" name="email_prof" id="email_prof"</p>
+
+            <p><label for="telefone">Telefone de contato:</label>
+            <input type="text" name="telefone" id="telefone"></p>
+            <p><label for="id_escola">ID escola:</label>
+            <input type="text" name="id_escola" id="id_escola"></p>
+            <p> <input type="submit" value="Enviar"></p>
+            
+        </form>
+<br>
+    <table border='3'>
+        <tr>
+            <th>
+                Nome    
+            </th>
+            <th>
+                E-mail
+            </th>
+            <th>
+                Telefone
+            </th>
+            <th>
+                ID escola
+            </th>
+        </tr>
+        {% for prof in prof_list:%}
+            <tr>
+                <td>
+                    {{ prof[1] }}
+                </td>    
+                <td>
+                    {{ prof[2] }}
+                </td>
+                <td>
+                    {{ prof[3] }}
+                </td>
+                <td>
+                    {{ prof[4] }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>    
+
+
+    
+</body>
+</html>

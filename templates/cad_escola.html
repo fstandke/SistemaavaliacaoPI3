@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Avaliaçãode</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
+</head>
+<body>
+    <h1>Sistema de Avaliação de Alunos </h1>
+        <h2>Olá {{name}} ! Essa é a tela de cadastro da Escola</h2>
+        <br>
+    <h2>Cadastro da Escola</h2>
+        <form action="/cad_escola" method="post" autocomplete="off">
+            <p><label for="nome_escola">Nome:</label>
+                <input type="text" name="nome_escola" id="nome_escola"></p>
+            <p><label for="endereco">Endereço:</label>
+            <input type="text" name="endereco" id="endereco"</p>
+            <p><label for="cidade">Cidade:</label>
+            <input type="text" name="cidade" id="cidade"</p>
+            <p><label for="estado">Estado:</label>
+            <input type="text" name="estado" id="estado"</p>
+
+            <p> <input type="submit" value="Enviar"></p>
+
+        </form>
+<br>
+
+    <br>
+    <table border='2'>
+        <tr>
+            <th>
+                Nome da Escola   
+            </th>
+            <th>
+                Endereço
+            </th>
+            <th>
+                Cidade
+            </th>
+            <th>
+            UF
+            </th>
+        </tr>
+        {% for escola in escola_list:%}
+            <tr>
+                <td>
+                    {{ escola[1] }}
+                </td>    
+                <td>
+                    {{ escola[2] }}
+                </td>
+                <td>
+                    {{ escola[3] }}
+                </td>
+                <td>
+                    {{ escola[4] }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>    
+
+</body>
+</html>
