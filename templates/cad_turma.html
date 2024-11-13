@@ -6,15 +6,18 @@
         <br>
     <h2>Cadastro da Turma</h2>
 
-    <form action="/cad_turma" method="post"  >
+    <form class="form-group" action="/cad_turma" method="post"  >
       {{form.csrf_token}}
         {{form.hidden_tag()}}
-        {{form.serie_turma.label}}
-        {{form.serie_turma}} <br>
-        {{form.ano_turma.label}}
-        {{form.ano_turma}} <br>
-        {{form.id_professor.label}}
-        {{form.id_professor}} <br>
+        <div class="form-group">      
+            {{form.serie_turma.label(class="form-control-label", for="serie_turma")}}
+            {{form.serie_turma(placeholder="Digite a turma, por exemplo: 1A Tarde", class="form-control", id="serie_turma")}} </div><br>
+        <div class="form-group">
+            {{form.ano_turma.label(class="form-control-label", for="ano_turma")}}
+            {{form.ano_turma(placeholder="Digite o ano da turma, por exemplo: 2024", class="form-control", id="ano_turma")}} </div><br>
+        <div class="form-group">
+            {{form.id_professor.label(class="form-control-label", for="id_professor")}}
+            {{form.id_professor(placeholder="Selecione o professor", class="form-select", id="id_professor")}}</div> <br>
         {{form.submit()}}
     </form>
 

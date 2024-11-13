@@ -6,21 +6,27 @@
         <br>
     <h2>Cadastro de Alunos</h2>
 
-    <form action="/cad_aluno" method="post" >
+    <form class="form-group" action="/cad_aluno" method="post" >
       {{form.csrf_token}}
         {{form.hidden_tag()}}
-        {{form.nome_aluno.label}}
-        {{form.nome_aluno}} <br>
-        {{form.nome_responsavel1.label}}
-        {{form.nome_responsavel1}} <br>
-        {{form.nome_responsavel2.label}}
-        {{form.nome_responsavel2}} <br>
-        {{form.data_nascimento.label}}
-        {{form.data_nascimento}} <br>
-        {{form.telefone_contato.label}}
-        {{form.telefone_contato}} <br>
-        {{form.id_turma.label}}
-        {{form.id_turma}} <br>
+        <div class="form-group">
+            {{form.nome_aluno.label(class="form-control-label", for="nome_aluno")}}
+            {{form.nome_aluno(placeholder="Digite o nome completo do aluno", class="form-control", id="nome_aluno")}} </div><br>
+        <div class="form-group">
+            {{form.nome_responsavel1.label(class="form-control-label", for="nome_responsavel1")}}
+            {{form.nome_responsavel1(placeholder="Digite o nome completo do responsável",class="form-control", id="nome_responsavel1")}}</div> <br>
+        <div class="form-group">
+            {{form.nome_responsavel2.label(class="form-control-label", for="nome_responsavel2")}}
+            {{form.nome_responsavel2(placeholder="Digite o nome completo de ujm segundo responsável",class="form-control", id="nome_responsavel2")}} </div> <br>
+        <div class="form-group">
+            {{form.data_nascimento.label(class="form-control-label", for="data_nascimento")}}
+        {{form.data_nascimento(placeholder="Digite a data de nascimento, por exemplo: 01/11/2020",class="form-control", id="data_nascimento")}} </div> <br>
+        <div class="form-group">
+            {{form.telefone_contato.label(class="form-control-label", for="telefone_contato")}}
+            {{form.telefone_contato(placeholder="Digite o telefone de contato, por exemplo: 19 99999-8888",class="form-control", id="telefone_contato")}}</div> <br>
+        <div class="form-group">
+        {{form.id_turma.label(class="form-control-label", for="id_turma")}}    
+        {{form.id_turma(class="form-select", id="id_turma")}} </div><br>
         {{form.submit()}}
     </form>
 

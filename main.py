@@ -10,7 +10,7 @@ app.config['SECRET_KEY'] = 'super-secret-key'
 class TurmaForm(FlaskForm):
     serie_turma = StringField('Serie da Turma', validators=[DataRequired()])
     ano_turma = StringField('Ano da Turma', validators=[DataRequired()])
-    id_professor = IntegerField('Id do Professor')
+    id_professor = IntegerField('ID do Professor')
     submit = SubmitField('Cadastrar')
 
 class SondagemForm(FlaskForm):
@@ -31,7 +31,7 @@ class AlunoForm(FlaskForm):
     turma_list=getTurmalist()
     lista_serie = [int(x[0]) for x in turma_list]
     print(lista_serie)
-    id_turma = SelectField('ID da Turma', choices=lista_serie, coerce=int)
+    id_turma = SelectField('Selecione o ID da Turma', choices=lista_serie, coerce=int)
     submit = SubmitField('Cadastrar')
 
 class AvaliacaoForm(FlaskForm):

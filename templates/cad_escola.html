@@ -1,19 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        <br>
+        
+<br>
     <h2>Cadastro da Escola</h2>
-        <form action="/cad_escola" method="post" autocomplete="off">
-            <p><label for="nome_escola">Nome:</label>
-                <input type="text" name="nome_escola" id="nome_escola"></p>
-            <p><label for="endereco">Endereço:</label>
-            <input type="text" name="endereco" id="endereco"</p>
-            <p><label for="cidade">Cidade:</label>
-            <input type="text" name="cidade" id="cidade"</p>
-            <p><label for="estado">Estado:</label>
-            <input type="text" name="estado" id="estado"</p>
+        <form class="form-group" action="/cad_escola" method="post" autocomplete="off">
+            <div><label class="form-control-label" for="nome_escola">Nome:</label>
+            <input class="form-control" placeholder="Digite o nome da Escola" type="text" name="nome_escola" id="nome_escola"></div><br>
+            <div><label class="form-control-label" for="endereco">Endereço:</label>
+            <input class="form-control" placeholder="Digite o endereço da Escola"  type="text" name="endereco" id="endereco"></div><br>
+            
+            <div><label class="form-control-label" for="cidade">Cidade:</label>
+            <input class="form-control" placeholder="Digie o nome da Cidade" type="text" name="cidade" id="cidade"></div><br>
+            
+            <div><label lass="form-control-label" for="estado">Estado:</label>
+            <input class="form-control" placeholder="Digie o Estado" type="text" type="text" name="estado" id="estado"</div><br>
 
-            <p> <input type="submit" value="Enviar"></p>
+            <p> <input type="submit" value="Cadastrar"></p>
 
         </form>
 <br>

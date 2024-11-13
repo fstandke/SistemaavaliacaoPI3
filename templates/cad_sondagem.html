@@ -2,20 +2,26 @@
 
 {% block content %}
 
+
+
     <br>
     <h2>Cadastro da Sondagem</h2>
 
-    <form action="/cad_sondagem" method="post" >
-      {{form.csrf_token}}
+    <form class="form-group" action="/cad_sondagem" method="post" >
+        {{form.csrf_token}}
         {{form.hidden_tag()}}
-        {{form.materia.label}}
-        {{form.materia}} <br>
-        {{form.campo_semantico.label}}
-        {{form.campo_semantico}} <br>
-        {{form.valores_ditados.label}}
-        {{form.valores_ditados}} <br>
-        {{form.data_sondagem.label}}
-        {{form.data_sondagem}} <br>
+       <div class="form-group"> 
+            {{form.materia.label(class="form-control-label", for="materia")}}
+            {{form.materia(class="form-select", id="materia")}}</div> <br>
+       <div class="form-group">
+            {{form.campo_semantico.label(class="form-control-label", for="campo_semantico")}}
+            {{form.campo_semantico(placeholder="Digite o campo semântico" , class="form-control", id="campo_semantico")}} </div><br>
+        <div class="form-group">
+            {{form.valores_ditados.label(class="form-control-label", for="valores_ditados")}}
+            {{form.valores_ditados(placeholder="Digite os valores ditados" , class="form-control", id="valores_ditados")}} </div><br>
+        <div iv class="form-group">
+            {{form.data_sondagem.label(class="form-control-label", for="data_sondagem")}}
+            {{form.data_sondagem(placeholder="Digite a data da sondagem,  por exemplo: 14/11/2024" , class="form-control", id="data_sondagem")}} </div><br>
         {{form.submit()}}
     </form>
 

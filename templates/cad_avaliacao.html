@@ -5,17 +5,23 @@
     <br>
     <h2>Cadastro de Avaliações</h2>
 
-    <form action="/cad_avaliacao" method="post" >
-      {{form.csrf_token}}
+    <form class="form-group" action="/cad_avaliacao" method="post" >
+        {{form.csrf_token}}
         {{form.hidden_tag()}}
-        {{form.data_avaliacao.label}}
-        {{form.data_avaliacao}} <br>
-        {{form.hipotese_escrita.label}}
-        {{form.hipotese_escrita}} <br>
-        {{form.id_aluno.label}}
-        {{form.id_aluno}} <br>
-        {{form.id_sondagem.label}}
-        {{form.id_sondagem}} <br>
+        <div class="form-group">
+            {{form.id_aluno.label(class="form-control-label", for="id_aluno")}}
+            {{form.id_aluno(class="form-select", id="id_aluno")}} </div><br>
+        <div class="form-group">
+            {{form.id_sondagem.label(class="form-group", for="id_aluno")}}
+            {{form.id_sondagem(class="form-select", id="id_aluno")}} </div><br>
+        
+        <div class="form-group">
+            {{form.data_avaliacao.label(class="form-control-label", for="data_avaliacao")}}
+            {{form.data_avaliacao(placeholder="Digite a data da avaliacao, por exemplo: 05/11/2024", class="form-control", id="data_avaliacao")}} </div><br>
+        <div class="form-group">
+            {{form.hipotese_escrita.label(class="form-control-label", for="hipotese_escrita")}}
+            {{form.hipotese_escrita(class="form-select", id="data_avaliacao")}} </div><br>
+
         {{form.submit()}}
     </form>
 
