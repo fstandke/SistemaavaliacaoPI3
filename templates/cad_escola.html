@@ -11,7 +11,7 @@
             <input class="form-control" placeholder="Digite o endereço da Escola"  type="text" name="endereco" id="endereco"></div><br>
             
             <div><label class="form-control-label" for="cidade">Cidade:</label>
-            <input class="form-control" placeholder="Digie o nome da Cidade" type="text" name="cidade" id="cidade"></div><br>
+            <input class="form-control" placeholder="Digite o nome da Cidade" type="text" name="cidade" id="cidade"></div><br>
             
             <div><label class="form-control-label" for="estado">Estado:</label>
             <input class="form-control" placeholder="Digie o Estado" type="text" type="text" name="estado" id="estado"</div><br>
@@ -22,7 +22,7 @@
 <br>
 
     <br>
-    <table border='2'>
+    <table border='2' class="table table-striped">
         <tr>
             <th>
                 Nome da Escola   
@@ -35,6 +35,9 @@
             </th>
             <th>
             UF
+            </th>
+            <th> 
+                ID da Escola
             </th>
         </tr>
         {% for escola in escola_list:%}
@@ -51,6 +54,9 @@
                 <td>
                     {{ escola[4] }}
                 </td>
+                <td>
+                    {{ escola[0] }}
+                </td>   
             </tr>
         {% endfor %}
     </table>    
