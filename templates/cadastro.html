@@ -14,7 +14,15 @@
             <input class="form-control" placeholder="Digite o telefone, por exemplo: 19 9999-8888"  type="text" name="telefone" id="telefone"></div><br>
             
             <div><label class="form-control-label" for="id_escola">Selecione o ID da escola:</label>
-            <input class="form-select" type="text" name="id_escola" id="id_escola"></div><br>
+            <!-- <input class="form-select" type="text" name="id_escola" id="id_escola"></div><br> -->
+            <select class="form-select form-select-sm mb-3" aria-label="Large select example" id="id_escola" name="id_escola">
+            <option selected>Escolha uma Escola</option>
+            {% for escola in escola_list:%}
+                <option value="{{escola[0]}}">{{escola[1]}}                   </option>
+
+            {% endfor %}
+            </select>
+            
             
             <p> <input class="btn btn-secondary" type="submit" value="Cadastrar"></p>
 

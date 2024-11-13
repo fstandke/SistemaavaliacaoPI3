@@ -53,14 +53,17 @@ def sobre():
 @app.route('/cadastro/')
 def cadastro():
     prof_list=getProflist()
-    return render_template('cadastro.html', prof_list=prof_list)
+
+    escola_list=getEscolalist()
+    
+    return render_template('cadastro.html', prof_list=prof_list, escola_list=escola_list)
 
 @app.route('/cad_professor', methods=['POST'])
 def cad_professor():
     nome_prof = request.form['nome_prof']
     email_prof = request.form['email_prof']
     telefone = request.form['telefone']
-    id_escola = request.form['id_escola']
+    id_escola = request.form.get('id_escola')
     cad_Prof(nome_prof, email_prof, telefone, id_escola)
     return redirect(url_for('cadastro'))
 
