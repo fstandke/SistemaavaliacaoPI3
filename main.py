@@ -26,12 +26,8 @@ class AlunoForm(FlaskForm):
     nome_responsavel2 = StringField('Nome do Responsavel 2')
     data_nascimento = StringField('Data de Nascimento' , validators=[DataRequired()])
     telefone_contato = StringField('Telefone de Contato' , validators=[DataRequired()])
-    #id_turma = IntegerField('ID da Turma')
-    #criando lista dinamica
-    turma_list=getTurmalist()
-    lista_serie = [int(x[0]) for x in turma_list]
-    print(lista_serie)
-    id_turma = SelectField('Selecione o ID da Turma', choices=lista_serie, coerce=int)
+    #inserindo lista dinamica para campo da Turma
+    id_turma = SelectField('Selecione o ID da Turma', choices=[], coerce=int)
     submit = SubmitField('Cadastrar')
 
 class AvaliacaoForm(FlaskForm):
@@ -107,6 +103,11 @@ def cad_sondagem():
 def cad_aluno():
     aluno_list=getAlunolist()
     form = AlunoForm()
+
+    #alteracao para incluir lista dinamica das turmas pelo nome
+    turma_list=getTurmalist()
+    form.id_turma.choices = [(turma[0], turma[1]) for turma in turma_list]
+    
     if form.validate_on_submit():
         cad_Aluno(form.nome_aluno.data, form.nome_responsavel1.data, form.nome_responsavel2.data, form.data_nascimento.data, form.telefone_contato.data, form.id_turma.data) 
         return redirect(url_for('cad_aluno'))
