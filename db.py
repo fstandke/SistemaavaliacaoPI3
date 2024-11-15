@@ -90,8 +90,19 @@ def cad_Aluno(nome_aluno, nome_responsavel1, nome_responsavel2, data_nascimento,
 def getAvaliacaolist():
   conn = psycopg2.connect(os.environ['DATABASE_URL'])
   cur = conn.cursor()
-  cur.execute("SELECT * FROM avaliacao")
+  #cur.execute("SELECT * FROM avaliacao")
+  cur.execute("""
+    SELECT data_avaliacao, hipotese_escrita, avaliacao.id_sondagem, materia, nome_aluno, serie_turma, ano_turma, nome_prof
+    FROM avaliacao 
+    INNER JOIN sondagem ON sondagem.id_sondagem = avaliacao.id_sondagem
+    INNER JOIN aluno ON avaliacao.id_aluno = aluno.id_aluno
+    INNER JOIN turma ON aluno.id_turma = turma.id_turma
+    INNER JOIN professor ON turma.id_professor = professor.id_professor
+    
+    
+    """)
   avaliacao_list = cur.fetchall()
+  print(avaliacao_list)
   cur.close
   conn.close
   return avaliacao_list

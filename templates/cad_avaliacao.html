@@ -38,26 +38,50 @@
                 Hipótese de Escrita
             </th>
             <th>
-                ID do Aluno
+                ID da Sondagem
             </th>
             <th>
-                ID da Sondagem
+                Matéria
+            </th>
+            <th>
+                Nome do Aluno
+            </th>
+            <th>
+                Série
+            </th>
+            <th>
+                Ano da turma
+            </th>
+            <th>
+                Nome do Professor
             </th>
 
         </tr>
         {% for avaliacao in avaliacao_list:%}
             <tr>
                 <td>
-                    {{ avaliacao[1] }}
+                    {{ avaliacao[0] }}
                 </td>
                 <td>
-                    {{ avaliacao[2] }}
+                    {{ avaliacao[1] }}
                 </td>    
+                <td>
+                    {{ avaliacao[2] }}
+                </td>
                 <td>
                     {{ avaliacao[3] }}
                 </td>
                 <td>
                     {{ avaliacao[4] }}
+                </td>
+                <td>
+                    {{ avaliacao[5] }}
+                </td>
+                <td>
+                    {{ avaliacao[6] }}
+                </td>
+                <td>
+                    {{ avaliacao[7] }}
                 </td>
 
             </tr>

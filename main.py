@@ -10,7 +10,7 @@ app.config['SECRET_KEY'] = 'super-secret-key'
 class TurmaForm(FlaskForm):
     serie_turma = StringField('Serie da Turma', validators=[DataRequired()])
     ano_turma = StringField('Ano da Turma', validators=[DataRequired()])
-    id_professor = IntegerField('ID do Professor')
+    id_professor = SelectField('ID do Professor', choices=[], coerce=int)
     submit = SubmitField('Cadastrar')
 
 class SondagemForm(FlaskForm):
@@ -26,15 +26,14 @@ class AlunoForm(FlaskForm):
     nome_responsavel2 = StringField('Nome do Responsavel 2')
     data_nascimento = StringField('Data de Nascimento' , validators=[DataRequired()])
     telefone_contato = StringField('Telefone de Contato' , validators=[DataRequired()])
-    #inserindo lista dinamica para campo da Turma
     id_turma = SelectField('Selecione o ID da Turma', choices=[], coerce=int)
     submit = SubmitField('Cadastrar')
 
 class AvaliacaoForm(FlaskForm):
     data_avaliacao = StringField('Data da Avaliação',validators=[DataRequired()])
     hipotese_escrita = SelectField('Hipótese de Escrita', choices=['Nivel 1','Nivel 2','Nivel 3', 'Nivel 4', 'Nivel 5', 'PRÉ-SILÁBICO', 'SILÁBICO SEM VALOR SONORO', 'SILÁBICO COM VALOR SONORO', 'SILÁBICO ALFABÉTICO','ALFABÉTICO'], validators=[DataRequired()])
-    id_aluno = StringField('ID do Aluno')
-    id_sondagem = StringField('ID da Sondagem' , validators=[DataRequired()])
+    id_aluno = SelectField('Selecione o Aluno', choices=[], coerce=int)
+    id_sondagem = SelectField('Escolha uma Sondagem' , choices=[], coerce=int)
     submit = SubmitField('Cadastrar')
 
 @app.route('/')
@@ -83,6 +82,10 @@ def cad_escola():
 def turma():
     turma_list=getTurmalist()
     form = TurmaForm()
+    #alteracao para incluir lista dinaminca de professores
+    prof_list=getProflist()
+    form.id_professor.choices =[(prof[0], prof[1]) for prof in prof_list]
+    
     if form.validate_on_submit():
         cad_Turma(form.serie_turma.data, form.ano_turma.data, form.id_professor.data) 
         return redirect(url_for('turma'))
@@ -103,7 +106,6 @@ def cad_sondagem():
 def cad_aluno():
     aluno_list=getAlunolist()
     form = AlunoForm()
-
     #alteracao para incluir lista dinamica das turmas pelo nome
     turma_list=getTurmalist()
     form.id_turma.choices = [(turma[0], turma[1]) for turma in turma_list]
@@ -118,6 +120,12 @@ def cad_aluno():
 def cad_avaliacao():
     avaliacao_list=getAvaliacaolist()
     form = AvaliacaoForm()
+    #alteracao para incluir lista dinamica do nome do Aluno e Sondagem
+    aluno_list=getAlunolist()
+    sondagem_list=getSondagemlist()
+    form.id_aluno.choices = [(aluno[0], aluno[1]) for aluno in aluno_list]
+    form.id_sondagem.choices =[(sondagem[0], sondagem[1]+' / '+sondagem[2]+' / '+sondagem[3]+' / '+sondagem[4]) for sondagem in sondagem_list]
+
     if form.validate_on_submit():
         cad_Avaliacao(form.data_avaliacao.data, form.hipotese_escrita.data, form.id_aluno.data, form.id_sondagem.data) 
         return redirect(url_for('cad_avaliacao'))
