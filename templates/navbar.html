@@ -17,13 +17,14 @@
             Cadastros
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="https://3bd52bc4-3feb-4a2e-b0e3-5f0895f55826-00-39hra71vsy9er.worf.replit.dev/cad_escola"">Escola</a></li>
-            <li><a class="dropdown-item" href="https://3bd52bc4-3feb-4a2e-b0e3-5f0895f55826-00-39hra71vsy9er.worf.replit.dev/cadastro">Professor</a></li>
+            <li><a class="dropdown-item" href="{{url_for('escola')}}">Escola</a></li>
+            <li><a class="dropdown-item" href="{{url_for('cadastro')}}">Professor</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="https://3bd52bc4-3feb-4a2e-b0e3-5f0895f55826-00-39hra71vsy9er.worf.replit.dev/cad_turma">Turma</a></li>
-            <li><a class="dropdown-item" href="https://3bd52bc4-3feb-4a2e-b0e3-5f0895f55826-00-39hra71vsy9er.worf.replit.dev/cad_aluno">Aluno</a></li>
-            <li><a class="dropdown-item" href="https://3bd52bc4-3feb-4a2e-b0e3-5f0895f55826-00-39hra71vsy9er.worf.replit.dev/cad_sondagem">Sondagem</a></li>
-            <li><a class="dropdown-item" href="https://3bd52bc4-3feb-4a2e-b0e3-5f0895f55826-00-39hra71vsy9er.worf.replit.dev/cad_avaliacao">Avaliação</a></li>
+            <li><a class="dropdown-item" href="{{url_for('turma')}}">Turma</a></li>
+            <li><a class="dropdown-item" href="{{url_for('cad_aluno')}}">Aluno</a></li>
+            <li><a class="dropdown-item" href="{{url_for('cad_sondagem')}}">Sondagem</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{url_for('cad_avaliacao')}}">Avaliação</a></li>
           </ul>
        
       </ul>
