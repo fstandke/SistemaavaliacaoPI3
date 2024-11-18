@@ -44,6 +44,10 @@ def index():
 def sobre():
     return render_template('sobre.html')
 
+@app.route('/relatorios')
+def relatorios():
+    return render_template('relatorios.html')
+
 # Cadastro do Professor
 @app.route('/cadastro/')
 def cadastro():

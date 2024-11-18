@@ -6,4 +6,4 @@ let botao=document.querySelector("#botao")
 
 botao.addEventListener("click", () =>{
   enviar_avaliacao()
-})
+})  
