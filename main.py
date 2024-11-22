@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from db import getProflist, cad_Prof, cad_Escola, getEscolalist, getTurmalist, cad_Turma, getSondagemlist, cad_Sondagem, getAlunolist, cad_Aluno, getAvaliacaolist, cad_Avaliacao, alt_Escola
+from db import getProflist, cad_Prof, cad_Escola, getEscolalist, getTurmalist, cad_Turma, getSondagemlist, cad_Sondagem, getAlunolist, cad_Aluno, getAvaliacaolist, cad_Avaliacao, alt_Escola, del_Escola
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, DateField, SelectField
 from wtforms.validators import DataRequired
@@ -138,7 +138,6 @@ def cad_avaliacao():
 #Alterando dados de cadastro da escola
 @app.route('/update_escola', methods=['POST','GET'])
 def update_escola():
-    #escola_list=getEscolalist()
     if request.method == 'POST' :
         id_escola = request.form['id_escola']
         nome_escola = request.form['nome_escola']
@@ -148,8 +147,12 @@ def update_escola():
         estado = request.form['estado']
         alt_Escola(id_escola, nome_escola, endereco, cidade, estado)   
         return redirect(url_for('cad_escola'))
-    
-    #return render_template('cad_escola.html', escola_list=escola_list)
+
+#rota para deletar registros da tabela escola
+@app.route('/del_escola/<string:id_escola>', methods=['GET'])
+def delete_escola(id_escola):  
+        del_Escola(id_escola)
+        return redirect(url_for('cad_escola'))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5432)

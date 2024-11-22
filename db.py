@@ -43,6 +43,16 @@ def alt_Escola(id_escola, nome_escola, endereco, cidade, estado):
   cur.close
   conn.close
 
+#Deletar registros da tabela Escola no Database
+def del_Escola(id_escola):
+  conn = psycopg2.connect(os.environ['DATABASE_URL'])
+  cur = conn.cursor()
+  cur.execute("""DELETE FROM escola where id_escola=%s""", (id_escola,))
+  conn.commit()
+  cur.close
+  conn.close
+  
+
 
 def getTurmalist():
     conn = psycopg2.connect(os.environ['DATABASE_URL'])
@@ -100,7 +110,6 @@ def cad_Aluno(nome_aluno, nome_responsavel1, nome_responsavel2, data_nascimento,
 def getAvaliacaolist():
   conn = psycopg2.connect(os.environ['DATABASE_URL'])
   cur = conn.cursor()
-  #cur.execute("SELECT * FROM avaliacao")
   cur.execute("""
     SELECT data_avaliacao, hipotese_escrita, avaliacao.id_sondagem, materia, nome_aluno, serie_turma, ano_turma, nome_prof
     FROM avaliacao 

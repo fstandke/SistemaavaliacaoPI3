@@ -66,10 +66,10 @@
                     <button type="button" class="btn btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#modal_escola{{escola[0]}}">
                       Alterar
                     </button>
-                    <button type="button" class="btn btn-danger btn-xs" data-bs-toggle="modal" data-bs-target="">
+                    <!--<button type="button" class="btn btn-danger btn-xs"  data-bs-target="/delete/{{escola[0]}}"> 
                       Apagar
-                    </button>
-                
+                    </button> -->
+                    <a href="/del_escola/{{escola[0]}}" class="btn btn-danger btn-xs" onclick="return confirm('Tem certeza que deseja apagar o registro?')">Apagar</a>
                 </td>  
                 
             </tr>
