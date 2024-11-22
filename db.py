@@ -34,6 +34,16 @@ def cad_Escola(nome_escola, endereco, cidade, estado):
   cur.close
   conn.close
 
+#Gravar alteração de dados da Escola no Database
+def alt_Escola(id_escola, nome_escola, endereco, cidade, estado):
+  conn = psycopg2.connect(os.environ['DATABASE_URL'])
+  cur = conn.cursor()
+  cur.execute("""UPDATE escola SET nome_escola=%s, endereco=%s, cidade=%s, estado=%s where id_escola=%s""", (nome_escola, endereco, cidade, estado, id_escola))
+  conn.commit()
+  cur.close
+  conn.close
+
+
 def getTurmalist():
     conn = psycopg2.connect(os.environ['DATABASE_URL'])
     cur = conn.cursor()
@@ -114,4 +124,3 @@ def cad_Avaliacao(data_avaliacao, hipotese_escrita, id_aluno, id_sondagem):
   conn.commit()
   cur.close
   conn.close
-#('INSERT INTO public."TaskList"(task_name, due_date) values(\'%s\', \'%s\');' % (name, date))

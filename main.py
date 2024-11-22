@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from db import getProflist, cad_Prof, cad_Escola, getEscolalist, getTurmalist, cad_Turma, getSondagemlist, cad_Sondagem, getAlunolist, cad_Aluno, getAvaliacaolist, cad_Avaliacao
+from db import getProflist, cad_Prof, cad_Escola, getEscolalist, getTurmalist, cad_Turma, getSondagemlist, cad_Sondagem, getAlunolist, cad_Aluno, getAvaliacaolist, cad_Avaliacao, alt_Escola
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, DateField, SelectField
 from wtforms.validators import DataRequired
@@ -135,6 +135,21 @@ def cad_avaliacao():
         return redirect(url_for('cad_avaliacao'))
     return render_template('cad_avaliacao.html', avaliacao_list=avaliacao_list, form=form)
 
+#Alterando dados de cadastro da escola
+@app.route('/update_escola', methods=['POST','GET'])
+def update_escola():
+    #escola_list=getEscolalist()
+    if request.method == 'POST' :
+        id_escola = request.form['id_escola']
+        nome_escola = request.form['nome_escola']
+        print(nome_escola)
+        endereco = request.form['endereco']
+        cidade = request.form['cidade']
+        estado = request.form['estado']
+        alt_Escola(id_escola, nome_escola, endereco, cidade, estado)   
+        return redirect(url_for('cad_escola'))
+    
+    #return render_template('cad_escola.html', escola_list=escola_list)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5432)

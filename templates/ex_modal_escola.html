@@ -1,0 +1,32 @@
+
+
+<div class="modal fade" id="modal_escola" tabindex="-1"  role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="update_escola">Atualização do Cadastro</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+
+      <form class="form-group" action="{{ url_for('update_escola') }}" method="POST">
+        
+                <div><label class="form-control-label" for="nome_escola">Nome:</label>
+                <input class="form-control"  type="text" name="nome_escola" id="nome_escola" value={{escola.nome_escola}}></div><br>
+                <div><label class="form-control-label" for="endereco">Endereço:</label>
+                <input class="form-control"  type="text" name="endereco" id="endereco"> value={{escola.endereco}}</div><br>
+                <div><label class="form-control-label" for="cidade">Cidade:</label>
+                <input class="form-control" type="text" name="cidade" id="cidade"> value={{escola.cidade}}</div><br>
+                <div><label class="form-control-label" for="estado">Estado:</label>
+                <input class="form-control"  type="text" type="text" name="estado" id="estado" value={{escola.estado}}</div><br>
+
+      </form>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-primary">Salvar Alteração</button>
+      </div>
+    </div>
+  </div>
+</div>    

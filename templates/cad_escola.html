@@ -4,7 +4,7 @@
         
 <br>
     <h2>Cadastro da Escola</h2>
-        <form class="form-group" action="/cad_escola" method="post" autocomplete="off">
+        <form class="form-group" action="/cad_escola" method="POST">
             <div><label class="form-control-label" for="nome_escola">Nome:</label>
             <input class="form-control" placeholder="Digite o nome da Escola" type="text" name="nome_escola" id="nome_escola"></div><br>
             <div><label class="form-control-label" for="endereco">Endereço:</label>
@@ -39,6 +39,9 @@
             <th> 
                 ID da Escola
             </th>
+            <th> 
+                Ações
+            </th>
         </tr>
         {% for escola in escola_list:%}
             <tr>
@@ -56,9 +59,65 @@
                 </td>
                 <td>
                     {{ escola[0] }}
-                </td>   
+                </td>  
+
+                <td>
+                     
+                    <button type="button" class="btn btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#modal_escola{{escola[0]}}">
+                      Alterar
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs" data-bs-toggle="modal" data-bs-target="">
+                      Apagar
+                    </button>
+                
+                </td>  
+                
             </tr>
+
+    <!-- Modal -->
+        <div class="modal fade" id="modal_escola{{escola[0]}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Alteração de Cadastro</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+
+                  
+                <form class="form-group" action="/update_escola" method="POST">
+                <div><label class="form-control-label" for="nome_escola">Nome:</label>
+                <input type="hidden"  name="id_escola" value="{{escola[0]}}">
+                <input class="form-control"  type="text" name="nome_escola" id="nome_escola" value="{{escola[1]}}"></div><br>
+                <div><label class="form-control-label" for="endereco">Endereço:</label>
+                <input class="form-control"  type="text" name="endereco" id="endereco" value="{{escola[2]}}"></div><br>
+                <div><label class="form-control-label" for="cidade">Cidade:</label>
+                <input class="form-control" type="text" name="cidade" id="cidade" value="{{escola[3]}}"></div><br>
+                <div><label class="form-control-label" for="estado">Estado:</label>
+                <input class="form-control"  type="text" type="text" name="estado" id="estado" value="{{escola[4]}}"></div><br>
+                
+                    <button type="submit" class="btn btn-warning btn-xs">Gravar Alteração</button>
+                
+                
+                </form>
+
+                  
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+
+
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+    <!-- Fim da modal acima-->
+
+        
+        
         {% endfor %}
+
     </table>    
 
 {% endblock %}
