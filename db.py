@@ -16,7 +16,26 @@ def cad_Prof(nome_prof, email_prof, telefone, id_escola):
   conn.commit()
   cur.close
   conn.close
-  
+
+#Gravar alteração de dados do Professor no Database
+def alt_Prof(id_professor, nome_prof, email_prof, telefone, id_escola):
+  conn = psycopg2.connect(os.environ['DATABASE_URL'])
+  cur = conn.cursor()
+  cur.execute("""UPDATE professor SET nome_prof=%s, email_prof=%s, telefone=%s, id_escola=%s where id_professor=%s """, (nome_prof, email_prof, telefone, id_escola, id_professor))
+  conn.commit()
+  cur.close
+  conn.close
+
+#Deletar registros da tabela Professor no Database
+def del_Prof(id_professor):
+  conn = psycopg2.connect(os.environ['DATABASE_URL'])
+  cur = conn.cursor()
+  cur.execute("""DELETE FROM professor where id_professor=%s""", (id_professor,))
+  conn.commit()
+  cur.close
+  conn.close
+
+
 def getEscolalist():
   conn = psycopg2.connect(os.environ['DATABASE_URL'])
   cur = conn.cursor()
@@ -117,7 +136,6 @@ def getAvaliacaolist():
     INNER JOIN aluno ON avaliacao.id_aluno = aluno.id_aluno
     INNER JOIN turma ON aluno.id_turma = turma.id_turma
     INNER JOIN professor ON turma.id_professor = professor.id_professor
-    
     
     """)
   avaliacao_list = cur.fetchall()

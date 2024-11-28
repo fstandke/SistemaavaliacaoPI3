@@ -8,7 +8,7 @@
                 <input class="form-control" placeholder="Digite o nome completo" type="text" name="nome_prof" id="nome_prof"></div><br>
             
             <div><label class="form-control-label"  for="email_prof">E-mail:</label>
-            <input class="form-control" placeholder="Digite o e-mail, por exemplo: professor@email.com.br" type="text"type="text" name="email_prof" id="email_prof"</div><br>
+            <input class="form-control" placeholder="Digite o e-mail, por exemplo: professor@email.com.br" type="text" name="email_prof" id="email_prof"</div><br>
 
             <div><label class="form-control-label" for="telefone">Telefone de contato:</label>
             <input class="form-control" placeholder="Digite o telefone, por exemplo: 19 9999-8888"  type="text" name="telefone" id="telefone"></div><br>
@@ -41,6 +41,9 @@
             <th>
                 ID da escola
             </th>
+            <th> 
+                Ações
+            </th>
         </tr>
         {% for prof in prof_list:%}
             <tr>
@@ -56,7 +59,68 @@
                 <td>
                     {{prof[4]}}  
                 </td>
+
+                <td>
+
+                    <button type="button" class="btn btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#modal_prof{{prof[0]}}">
+                      Alterar
+                    </button>
+                    <a href="/del_prof/{{prof[0]}}" class="btn btn-danger btn-xs" onclick="return confirm('Tem certeza que deseja apagar o registro?')">Apagar</a>
+                </td>  
+
+                
             </tr>
+        <!-- Modal -->
+            <div class="modal fade" id="modal_prof{{prof[0]}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Alteração de Cadastro</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+<!-- Incluir formulario abaixo -->
+                      <form class="form-group" action="/update_prof" method="post">
+                          <input type="hidden"  name="id_professor" value="{{prof[0]}}">
+                          <div><label class="form-control-label" for="nome_prof">Nome completo:</label>
+                              <input class="form-control" type="text" name="nome_prof" id="nome_prof" value="{{prof[1]}}"> </div><br>
+
+                          <div><label class="form-control-label"  for="email_prof">E-mail:</label>
+                          <input class="form-control"  type="text" name="email_prof" id="email_prof" value="{{prof[2]}}"></div><br>
+
+                          <div><label class="form-control-label" for="telefone">Telefone de contato:</label>
+                          <input class="form-control" type="text" name="telefone" id="telefone" value="{{prof[3]}}"></div><br>
+
+                          <div><label class="form-control-label" for="id_escola">Selecione o ID da escola:</label>
+                          <select class="form-select form-select-sm mb-3" aria-label="Large select example" id="id_escola" name="id_escola">
+                          <option selected>Escolha uma Escola</option>
+                          {% for escola in escola_list:%}
+                              <option value="{{escola[0]}}">{{escola[1]}}                   </option>
+
+                          {% endfor %}
+                          </select>
+
+
+                        <button type="submit" class="btn btn-warning btn-xs">Gravar Alteração</button>
+
+
+                    </form>
+
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+        <!-- Fim da modal acima-->
+
+
+        
         {% endfor %}
     </table>    
 

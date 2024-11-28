@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from db import getProflist, cad_Prof, cad_Escola, getEscolalist, getTurmalist, cad_Turma, getSondagemlist, cad_Sondagem, getAlunolist, cad_Aluno, getAvaliacaolist, cad_Avaliacao, alt_Escola, del_Escola
+from db import getProflist, cad_Prof, cad_Escola, getEscolalist, getTurmalist, cad_Turma, getSondagemlist, cad_Sondagem, getAlunolist, cad_Aluno, getAvaliacaolist, cad_Avaliacao, alt_Escola, del_Escola, alt_Prof, del_Prof
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, DateField, SelectField
 from wtforms.validators import DataRequired
@@ -52,9 +52,7 @@ def relatorios():
 @app.route('/cadastro/')
 def cadastro():
     prof_list=getProflist()
-
-    escola_list=getEscolalist()
-    
+    escola_list=getEscolalist()    
     return render_template('cadastro.html', prof_list=prof_list, escola_list=escola_list)
 
 @app.route('/cad_professor', methods=['POST'])
@@ -141,7 +139,6 @@ def update_escola():
     if request.method == 'POST' :
         id_escola = request.form['id_escola']
         nome_escola = request.form['nome_escola']
-        print(nome_escola)
         endereco = request.form['endereco']
         cidade = request.form['cidade']
         estado = request.form['estado']
@@ -153,6 +150,30 @@ def update_escola():
 def delete_escola(id_escola):  
         del_Escola(id_escola)
         return redirect(url_for('cad_escola'))
+
+
+#Alterando dados de cadastro do Professor
+@app.route('/update_prof', methods=['POST','GET'])
+def update_prof():
+    if request.method == 'POST' :
+        id_professor = request.form['id_professor']
+        nome_prof = request.form['nome_prof']
+        email_prof = request.form['email_prof']
+        telefone = request.form['telefone']
+        id_escola = request.form.get('id_escola')
+        print(id_professor, nome_prof, email_prof, telefone, id_escola)
+        alt_Prof(id_professor, nome_prof, email_prof, telefone, id_escola)   
+        return redirect(url_for('cadastro'))
+
+#rota para deletar registros da tabela professor
+@app.route('/del_prof/<string:id_professor>', methods=['GET'])
+def delete_prof(id_professor):  
+        del_Prof(id_professor)
+        return redirect(url_for('cadastro'))
+
+
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5432)
