@@ -37,6 +37,9 @@
             <th>
                 ID do Professor
             </th>
+            <th> 
+                Ações
+            </th>
 
         </tr>
         {% for turma in turma_list:%}
@@ -50,8 +53,62 @@
                 <td>
                     {{ turma[3] }}
                 </td>
+                <td>
+                    <button type="button" class="btn btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#modal_turma{{turma[0]}}"">
+                          Alterar
+                        </button>
+                        <a href="" class="btn btn-danger btn-xs" onclick="return confirm('Tem certeza que deseja apagar o registro?')">Apagar</a>
+                </td>
 
             </tr>
+
+         <!-- Modal -->
+                    <div class="modal fade" id="modal_turma{{turma[0]}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Alteração de Cadastro</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+        <!-- Incluir formulario abaixo -->
+            <form class="form-group" action="/alt_turma" method="post"  >
+                    {{form.csrf_token}}
+              
+                    {{form.id_turma(value=turma[0])}}
+            <div class="form-group">      
+                    {{form.serie_turma.label(class="form-control-label", for="serie_turma")}}
+                    {{form.serie_turma(class="form-control", id="serie_turma", value=turma[1])}} </div><br>
+            <div class="form-group">
+                {{form.ano_turma.label(class="form-control-label", for="ano_turma")}}
+                {{form.ano_turma(value=turma[2], class="form-control", id="ano_turma")}} </div><br>
+            <div class="form-group">
+                {{form.id_professor.label(class="form-control-label", for="id_professor")}}
+                {{form.id_professor(value=turma[3], class="form-select", id="id_professor")}}</div> <br>
+                {{form.submit_alt(class="btn btn-secondary")}}
+            </form>
+
+            
+            <!-- <button type="submit" class="btn btn-warning btn-xs">Gravar Alteração</button> -->
+
+
+                            </form>
+
+
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+
+
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                <!-- Fim da modal acima-->
+
+
+        
         {% endfor %}
     </table>    
 

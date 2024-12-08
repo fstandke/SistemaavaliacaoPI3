@@ -91,6 +91,18 @@ def cad_Turma(serie_turma, ano_turma, id_professor):
     cur.close
     conn.close
 
+#Gravar alteração de dados da Turna no Database
+def alt_Turma(id_turma, serie_turma, ano_turma, id_professor):
+  conn = psycopg2.connect(os.environ['DATABASE_URL'])
+  cur = conn.cursor()
+  cur.execute("""UPDATE turma SET serie_turma=%s, ano_turma=%s, id_professor=%s where id_turma=%s """, (serie_turma, ano_turma, id_professor, id_turma))
+  conn.commit()
+  cur.close
+  conn.close
+
+
+
+
 def getSondagemlist():
   conn = psycopg2.connect(os.environ['DATABASE_URL'])
   cur = conn.cursor()

@@ -1,17 +1,19 @@
 from flask import Flask, render_template, request, redirect, url_for
-from db import getProflist, cad_Prof, cad_Escola, getEscolalist, getTurmalist, cad_Turma, getSondagemlist, cad_Sondagem, getAlunolist, cad_Aluno, getAvaliacaolist, cad_Avaliacao, alt_Escola, del_Escola, alt_Prof, del_Prof
+from db import getProflist, cad_Prof, cad_Escola, getEscolalist, getTurmalist, cad_Turma, getSondagemlist, cad_Sondagem, getAlunolist, cad_Aluno, getAvaliacaolist, cad_Avaliacao, alt_Escola, del_Escola, alt_Prof, del_Prof, alt_Turma
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, IntegerField, DateField, SelectField
+from wtforms import StringField, SubmitField, IntegerField, DateField, SelectField, HiddenField
 from wtforms.validators import DataRequired
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'super-secret-key'
 
 class TurmaForm(FlaskForm):
+    id_turma = HiddenField()
     serie_turma = StringField('Serie da Turma', validators=[DataRequired()])
     ano_turma = StringField('Ano da Turma', validators=[DataRequired()])
     id_professor = SelectField('Nome do Professor', choices=[], coerce=int)
     submit = SubmitField('Cadastrar')
+    submit_alt = SubmitField('Gravar Alterações')
 
 class SondagemForm(FlaskForm):
     materia = SelectField('Matéria', choices=["Português","Matemática"],validators=[DataRequired()])
@@ -172,6 +174,19 @@ def delete_prof(id_professor):
         return redirect(url_for('cadastro'))
 
 
+# Alterando dados de cadastro da Turma
+@app.route('/alt_turma', methods=['GET','POST'])
+def alt_turma():
+    turma_list=getTurmalist()
+    form = TurmaForm()
+    #alteracao para incluir lista dinaminca de professores
+    prof_list=getProflist()
+    form.id_professor.choices =[(prof[0], prof[1]) for prof in prof_list]
+
+    if form.validate_on_submit():
+        alt_Turma(form.id_turma.data, form.serie_turma.data, form.ano_turma.data, form.id_professor.data) 
+        return redirect(url_for('turma'))
+    return render_template('cad_turma.html', turma_list=turma_list,form=form)
 
 
 
