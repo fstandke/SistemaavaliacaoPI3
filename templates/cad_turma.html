@@ -57,7 +57,7 @@
                     <button type="button" class="btn btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#modal_turma{{turma[0]}}"">
                           Alterar
                         </button>
-                        <a href="" class="btn btn-danger btn-xs" onclick="return confirm('Tem certeza que deseja apagar o registro?')">Apagar</a>
+                        <a href="/del_turma/{{turma[0]}}" class="btn btn-danger btn-xs" onclick="return confirm('Tem certeza que deseja apagar o registro?')">Apagar</a>
                 </td>
 
             </tr>
@@ -85,7 +85,7 @@
             <div class="form-group">
                 {{form.id_professor.label(class="form-control-label", for="id_professor")}}
                 {{form.id_professor(value=turma[3], class="form-select", id="id_professor")}}</div> <br>
-                {{form.submit_alt(class="btn btn-secondary")}}
+                {{form.submit_alt(class="btn btn-warning btn-xs")}}
             </form>
 
             

@@ -99,8 +99,15 @@ def alt_Turma(id_turma, serie_turma, ano_turma, id_professor):
   conn.commit()
   cur.close
   conn.close
-
-
+  
+#Deletar registros da tabela turma no Database
+def del_Turma(id_turma):
+  conn = psycopg2.connect(os.environ['DATABASE_URL'])
+  cur = conn.cursor()
+  cur.execute("""DELETE FROM turma where id_turma=%s""", (id_turma,))
+  conn.commit()
+  cur.close
+  conn.close
 
 
 def getSondagemlist():

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from db import getProflist, cad_Prof, cad_Escola, getEscolalist, getTurmalist, cad_Turma, getSondagemlist, cad_Sondagem, getAlunolist, cad_Aluno, getAvaliacaolist, cad_Avaliacao, alt_Escola, del_Escola, alt_Prof, del_Prof, alt_Turma
+from db import getProflist, cad_Prof, cad_Escola, getEscolalist, getTurmalist, cad_Turma, getSondagemlist, cad_Sondagem, getAlunolist, cad_Aluno, getAvaliacaolist, cad_Avaliacao, alt_Escola, del_Escola, alt_Prof, del_Prof, alt_Turma, del_Turma
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, DateField, SelectField, HiddenField
 from wtforms.validators import DataRequired
@@ -188,7 +188,11 @@ def alt_turma():
         return redirect(url_for('turma'))
     return render_template('cad_turma.html', turma_list=turma_list,form=form)
 
-
+#rota para deletar registros da tabela turma
+@app.route('/del_turma/<string:id_turma>', methods=['GET'])
+def del_turma(id_turma):  
+        del_Turma(id_turma)
+        return redirect(url_for('turma'))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5432)
