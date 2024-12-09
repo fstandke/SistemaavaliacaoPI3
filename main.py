@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from db import getProflist, cad_Prof, cad_Escola, getEscolalist, getTurmalist, cad_Turma, getSondagemlist, cad_Sondagem, getAlunolist, cad_Aluno, getAvaliacaolist, cad_Avaliacao, alt_Escola, del_Escola, alt_Prof, del_Prof, alt_Turma, del_Turma
+from db import getProflist, cad_Prof, cad_Escola, getEscolalist, getTurmalist, cad_Turma, getSondagemlist, cad_Sondagem, getAlunolist, cad_Aluno, getAvaliacaolist, cad_Avaliacao, alt_Escola, del_Escola, alt_Prof, del_Prof, alt_Turma, del_Turma, alt_Aluno, del_Aluno
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, DateField, SelectField, HiddenField
 from wtforms.validators import DataRequired
@@ -23,6 +23,7 @@ class SondagemForm(FlaskForm):
     submit = SubmitField('Cadastrar')
 
 class AlunoForm(FlaskForm):
+    id_aluno = HiddenField()
     nome_aluno = StringField('Nome do Aluno',validators=[DataRequired()])
     nome_responsavel1 = StringField('Nome do Responsavel 1', validators=[DataRequired()])
     nome_responsavel2 = StringField('Nome do Responsavel 2')
@@ -30,6 +31,7 @@ class AlunoForm(FlaskForm):
     telefone_contato = StringField('Telefone de Contato' , validators=[DataRequired()])
     id_turma = SelectField('Selecione o ID da Turma', choices=[], coerce=int)
     submit = SubmitField('Cadastrar')
+    submit_alt = SubmitField('Gravar Alterações')
 
 class AvaliacaoForm(FlaskForm):
     data_avaliacao = StringField('Data da Avaliação',validators=[DataRequired()])
@@ -193,6 +195,28 @@ def alt_turma():
 def del_turma(id_turma):  
         del_Turma(id_turma)
         return redirect(url_for('turma'))
+
+
+## Alterando dados de cadastro de Alunos
+@app.route('/alt_aluno', methods=['GET','POST'])
+def alt_aluno():
+    aluno_list=getAlunolist()
+    form = AlunoForm()
+    #alteracao para incluir lista dinamica das turmas pelo nome
+    turma_list=getTurmalist()
+    form.id_turma.choices = [(turma[0], turma[1]) for turma in turma_list]
+
+    if form.validate_on_submit():
+        alt_Aluno(form.id_aluno.data, form.nome_aluno.data, form.nome_responsavel1.data, form.nome_responsavel2.data, form.data_nascimento.data, form.telefone_contato.data, form.id_turma.data) 
+        return redirect(url_for('cad_aluno'))
+    return render_template('cad_aluno.html', aluno_list=aluno_list, form=form)
+
+#rota para deletar registros da tabela aluno
+@app.route('/del_aluno/<string:id_aluno>', methods=['GET'])
+def del_aluno(id_aluno):  
+        del_Aluno(id_aluno)
+        return redirect(url_for('cad_aluno'))
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5432)

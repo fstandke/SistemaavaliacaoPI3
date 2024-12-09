@@ -145,6 +145,25 @@ def cad_Aluno(nome_aluno, nome_responsavel1, nome_responsavel2, data_nascimento,
   cur.close
   conn.close
 
+#Gravar alteração de dados de Alunos no Database
+def alt_Aluno(id_aluno, nome_aluno, nome_responsavel1, nome_responsavel2, data_nascimento, telefone_contato, id_turma):
+  conn = psycopg2.connect(os.environ['DATABASE_URL'])
+  cur = conn.cursor()
+  cur.execute("""UPDATE aluno SET nome_aluno=%s, nome_responsavel1=%s, nome_responsavel2=%s, data_nascimento=%s, telefone_contato=%s, id_turma=%s where id_aluno=%s """, (nome_aluno, nome_responsavel1, nome_responsavel2, data_nascimento, telefone_contato, id_turma, id_aluno))
+  conn.commit()
+  cur.close()
+  conn.close()
+
+#Deletar registros da alunos no Database
+def del_Aluno(id_aluno):
+  conn = psycopg2.connect(os.environ['DATABASE_URL'])
+  cur = conn.cursor()
+  cur.execute("""DELETE FROM aluno where id_aluno=%s""", (id_aluno,))
+  conn.commit()
+  cur.close()
+  conn.close()
+
+
 def getAvaliacaolist():
   conn = psycopg2.connect(os.environ['DATABASE_URL'])
   cur = conn.cursor()

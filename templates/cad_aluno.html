@@ -54,6 +54,9 @@
             <th>
                 ID da Turma
             </th>
+            <th>
+                Ações
+            </th>
         </tr>
         {% for aluno in aluno_list:%}
             <tr>
@@ -75,7 +78,72 @@
                 <td>
                     {{ aluno[6] }}
                 </td>
+
+                <td>
+                    <button type="button" class="btn btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#modal_aluno{{aluno[0]}}">
+                          Alterar
+                        </button>
+                        <a href="/del_aluno/{{aluno[0]}}" class="btn btn-danger btn-xs" onclick="return confirm('Tem certeza que deseja apagar o registro?')">Apagar</a>
+                </td>
+                
             </tr>
+
+        <!-- Modal -->
+                    <div class="modal fade" id="modal_aluno{{aluno[0]}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Alteração de Cadastro</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+        <!-- Incluir formulario abaixo -->
+                    <form class="form-group" action="/alt_aluno" method="post" >
+                    {{form.csrf_token}}
+                    {{form.id_aluno(value=aluno[0])}}
+                    <div class="form-group">
+                    {{form.nome_aluno.label(class="form-control-label", for="nome_aluno")}}
+                    {{form.nome_aluno(value=aluno[1], class="form-control", id="nome_aluno")}} </div><br>
+                    <div class="form-group">
+                    {{form.nome_responsavel1.label(class="form-control-label", for="nome_responsavel1")}}
+                    {{form.nome_responsavel1(value=aluno[2],class="form-control", id="nome_responsavel1")}}</div> <br>
+                    <div class="form-group">
+                    {{form.nome_responsavel2.label(class="form-control-label", for="nome_responsavel2")}}
+                    {{form.nome_responsavel2(value=aluno[3] ,class="form-control", id="nome_responsavel2")}} </div> <br>
+                    <div class="form-group">
+                    {{form.data_nascimento.label(class="form-control-label", for="data_nascimento")}}
+                    {{form.data_nascimento(value=aluno[4],class="form-control", id="data_nascimento")}} </div> <br>
+                    <div class="form-group">
+                    {{form.telefone_contato.label(class="form-control-label", for="telefone_contato")}}
+                    {{form.telefone_contato(value=aluno[5],class="form-control", id="telefone_contato")}}</div> <br>
+                    <div class="form-group">
+                    {{form.id_turma.label(class="form-control-label", for="id_turma")}}    
+                    {{form.id_turma(class="form-select", id="id_turma", alue=aluno[6] )}} </div><br>
+                    {{form.submit_alt(class="btn btn-warning btn-xs")}}
+                    </form>
+                           
+                
+                    
+                    </form>
+
+            <!-- Fim do formulario -->
+                            </form>
+
+
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+
+
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                <!-- Fim da modal acima-->
+
+
+        
         {% endfor %}
     </table>    
 {% endblock %}
