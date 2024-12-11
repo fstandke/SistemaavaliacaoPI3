@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from db import getProflist, cad_Prof, cad_Escola, getEscolalist, getTurmalist, cad_Turma, getSondagemlist, cad_Sondagem, getAlunolist, cad_Aluno, getAvaliacaolist, cad_Avaliacao, alt_Escola, del_Escola, alt_Prof, del_Prof, alt_Turma, del_Turma, alt_Aluno, del_Aluno
+from db import getProflist, cad_Prof, cad_Escola, getEscolalist, getTurmalist, cad_Turma, getSondagemlist, cad_Sondagem, getAlunolist, cad_Aluno, getAvaliacaolist, cad_Avaliacao, alt_Escola, del_Escola, alt_Prof, del_Prof, alt_Turma, del_Turma, alt_Aluno, del_Aluno, alt_Sondagem, del_Sondagem
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, DateField, SelectField, HiddenField
 from wtforms.validators import DataRequired
@@ -16,11 +16,13 @@ class TurmaForm(FlaskForm):
     submit_alt = SubmitField('Gravar Alterações')
 
 class SondagemForm(FlaskForm):
+    id_sondagem = HiddenField()
     materia = SelectField('Matéria', choices=["Português","Matemática"],validators=[DataRequired()])
     campo_semantico = StringField('Campo Semantico', validators=[DataRequired()])
     valores_ditados = StringField('Valores Ditados')
     data_sondagem = StringField('Data' , validators=[DataRequired()])
     submit = SubmitField('Cadastrar')
+    submit_alt = SubmitField('Gravar Alterações')
 
 class AlunoForm(FlaskForm):
     id_aluno = HiddenField()
@@ -216,6 +218,22 @@ def alt_aluno():
 def del_aluno(id_aluno):  
         del_Aluno(id_aluno)
         return redirect(url_for('cad_aluno'))
+
+# Alterando dados de cadastro da Sondagem
+@app.route('/alt_sondagem', methods=['GET','POST'])
+def alt_sondagem():
+    sondagem_list=getSondagemlist()
+    form = SondagemForm()
+    if form.validate_on_submit():
+        alt_Sondagem(form.id_sondagem.data, form.materia.data, form.campo_semantico.data, form.valores_ditados.data, form.data_sondagem.data) 
+        return redirect(url_for('cad_sondagem'))
+    return render_template('cad_sondagem.html', sondagem_list=sondagem_list, form=form)
+
+#rota para deletar registros da tabela Sondagem
+@app.route('/del_sondagem/<string:id_sondagem>', methods=['GET'])
+def del_sondagem(id_sondagem):  
+        del_Sondagem(id_sondagem)
+        return redirect(url_for('cad_sondagem'))
 
 
 if __name__ == '__main__':

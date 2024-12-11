@@ -5,8 +5,8 @@ def getProflist():
   cur = conn.cursor()
   cur.execute("SELECT * FROM professor")
   prof_list = cur.fetchall()
-  cur.close
-  conn.close
+  cur.close()
+  conn.close()
   return prof_list
 
 def cad_Prof(nome_prof, email_prof, telefone, id_escola):
@@ -14,8 +14,8 @@ def cad_Prof(nome_prof, email_prof, telefone, id_escola):
   cur = conn.cursor()
   cur.execute("INSERT INTO professor (nome_prof, email_prof, telefone, id_escola) VALUES( %s, %s , %s, %s);" ,(nome_prof, email_prof, telefone, id_escola))
   conn.commit()
-  cur.close
-  conn.close
+  cur.close()
+  conn.close()
 
 #Gravar alteração de dados do Professor no Database
 def alt_Prof(id_professor, nome_prof, email_prof, telefone, id_escola):
@@ -23,8 +23,8 @@ def alt_Prof(id_professor, nome_prof, email_prof, telefone, id_escola):
   cur = conn.cursor()
   cur.execute("""UPDATE professor SET nome_prof=%s, email_prof=%s, telefone=%s, id_escola=%s where id_professor=%s """, (nome_prof, email_prof, telefone, id_escola, id_professor))
   conn.commit()
-  cur.close
-  conn.close
+  cur.close()
+  conn.close()
 
 #Deletar registros da tabela Professor no Database
 def del_Prof(id_professor):
@@ -32,8 +32,8 @@ def del_Prof(id_professor):
   cur = conn.cursor()
   cur.execute("""DELETE FROM professor where id_professor=%s""", (id_professor,))
   conn.commit()
-  cur.close
-  conn.close
+  cur.close()
+  conn.close()
 
 
 def getEscolalist():
@@ -41,8 +41,8 @@ def getEscolalist():
   cur = conn.cursor()
   cur.execute("SELECT * FROM escola")
   prof_list = cur.fetchall()
-  cur.close
-  conn.close
+  cur.close()
+  conn.close()
   return prof_list
 
 def cad_Escola(nome_escola, endereco, cidade, estado):
@@ -50,8 +50,8 @@ def cad_Escola(nome_escola, endereco, cidade, estado):
   cur = conn.cursor()
   cur.execute("INSERT INTO escola (nome_escola, endereco, cidade, estado) VALUES(\'%s\', \'%s\' , \'%s\', \'%s\' );" % (nome_escola, endereco, cidade, estado))
   conn.commit()
-  cur.close
-  conn.close
+  cur.close()
+  conn.close()
 
 #Gravar alteração de dados da Escola no Database
 def alt_Escola(id_escola, nome_escola, endereco, cidade, estado):
@@ -59,8 +59,8 @@ def alt_Escola(id_escola, nome_escola, endereco, cidade, estado):
   cur = conn.cursor()
   cur.execute("""UPDATE escola SET nome_escola=%s, endereco=%s, cidade=%s, estado=%s where id_escola=%s""", (nome_escola, endereco, cidade, estado, id_escola))
   conn.commit()
-  cur.close
-  conn.close
+  cur.close()
+  conn.close()
 
 #Deletar registros da tabela Escola no Database
 def del_Escola(id_escola):
@@ -68,8 +68,8 @@ def del_Escola(id_escola):
   cur = conn.cursor()
   cur.execute("""DELETE FROM escola where id_escola=%s""", (id_escola,))
   conn.commit()
-  cur.close
-  conn.close
+  cur.close()
+  conn.close()
   
 
 
@@ -78,8 +78,8 @@ def getTurmalist():
     cur = conn.cursor()
     cur.execute("SELECT * FROM turma")
     turma_list = cur.fetchall()
-    cur.close
-    conn.close
+    cur.close()
+    conn.close()
     return turma_list
 
   
@@ -88,8 +88,8 @@ def cad_Turma(serie_turma, ano_turma, id_professor):
     cur = conn.cursor()
     cur.execute("INSERT INTO turma (serie_turma, ano_turma, id_professor) VALUES(\'%s\', \'%s\' , \'%s\');" % (serie_turma, ano_turma, id_professor))
     conn.commit()
-    cur.close
-    conn.close
+    cur.close()
+    conn.close()
 
 #Gravar alteração de dados da Turna no Database
 def alt_Turma(id_turma, serie_turma, ano_turma, id_professor):
@@ -97,8 +97,8 @@ def alt_Turma(id_turma, serie_turma, ano_turma, id_professor):
   cur = conn.cursor()
   cur.execute("""UPDATE turma SET serie_turma=%s, ano_turma=%s, id_professor=%s where id_turma=%s """, (serie_turma, ano_turma, id_professor, id_turma))
   conn.commit()
-  cur.close
-  conn.close
+  cur.close()
+  conn.close()
   
 #Deletar registros da tabela turma no Database
 def del_Turma(id_turma):
@@ -106,27 +106,43 @@ def del_Turma(id_turma):
   cur = conn.cursor()
   cur.execute("""DELETE FROM turma where id_turma=%s""", (id_turma,))
   conn.commit()
-  cur.close
-  conn.close
-
+  cur.close()
+  conn.close()
 
 def getSondagemlist():
   conn = psycopg2.connect(os.environ['DATABASE_URL'])
   cur = conn.cursor()
   cur.execute("SELECT * FROM sondagem")
   sondagem_list = cur.fetchall()
-  cur.close
-  conn.close
+  cur.close()
+  conn.close()
   return sondagem_list
 
-def cad_Sondagem(materia, campo_semantico, valores, data_sondagem):
+def cad_Sondagem(materia, campo_semantico, valores_ditados, data_sondagem):
   conn = psycopg2.connect(os.environ['DATABASE_URL'])
   cur = conn.cursor()
-  cur.execute("INSERT INTO sondagem (materia, campo_semantico, valores_ditados, data_sondagem) VALUES(\'%s\', \'%s\' , \'%s\' , \'%s\');" % (materia, campo_semantico, valores, data_sondagem))
+  cur.execute("INSERT INTO sondagem (materia, campo_semantico, valores_ditados, data_sondagem) VALUES(\'%s\', \'%s\' , \'%s\' , \'%s\');" % (materia, campo_semantico, valores_ditados, data_sondagem))
   conn.commit()
-  cur.close
-  conn.close
+  cur.close()
+  conn.close()
 
+#Gravar alteração de dados da Sondagem no Database
+def alt_Sondagem(id_sondagem, materia, campo_semantico, valores_ditados, data_sondagem):
+  conn = psycopg2.connect(os.environ['DATABASE_URL'])
+  cur = conn.cursor()
+  cur.execute("""UPDATE sondagem SET materia=%s, campo_semantico=%s, valores_ditados=%s, data_sondagem=%s where id_sondagem=%s """, (materia, campo_semantico, valores_ditados, data_sondagem, id_sondagem))
+  conn.commit()
+  cur.close()
+  conn.close()
+
+#Deletar registros da sondagem no Database
+def del_Sondagem(id_sondagem):
+  conn = psycopg2.connect(os.environ['DATABASE_URL'])
+  cur = conn.cursor()
+  cur.execute("""DELETE FROM sondagem where id_sondagem=%s""", (id_sondagem,))
+  conn.commit()
+  cur.close()
+  conn.close()
 
 def getAlunolist():
   conn = psycopg2.connect(os.environ['DATABASE_URL'])
@@ -178,8 +194,8 @@ def getAvaliacaolist():
     """)
   avaliacao_list = cur.fetchall()
   print(avaliacao_list)
-  cur.close
-  conn.close
+  cur.close()
+  conn.close()
   return avaliacao_list
 
 def cad_Avaliacao(data_avaliacao, hipotese_escrita, id_aluno, id_sondagem):
@@ -187,5 +203,5 @@ def cad_Avaliacao(data_avaliacao, hipotese_escrita, id_aluno, id_sondagem):
   cur = conn.cursor()
   cur.execute("INSERT INTO avaliacao (data_avaliacao, hipotese_escrita, id_aluno, id_sondagem) VALUES(\'%s\', \'%s\' , \'%s\' , \'%s\');" % (data_avaliacao, hipotese_escrita, id_aluno, id_sondagem))
   conn.commit()
-  cur.close
-  conn.close
+  cur.close()
+  conn.close()

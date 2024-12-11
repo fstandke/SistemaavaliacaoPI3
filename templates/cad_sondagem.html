@@ -2,8 +2,6 @@
 
 {% block content %}
 
-
-
     <br>
     <h2>Cadastro da Sondagem</h2>
 
@@ -46,6 +44,9 @@
             <th>
                 Data da Sondagem
             </th>
+            <th>
+                Ações
+            </th>
         </tr>
         {% for sondagem in sondagem_list:%}
             <tr>
@@ -64,7 +65,65 @@
                 <td>
                     {{ sondagem[4] }}
                 </td>
+                <td>
+                    <button type="button" class="btn btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#modal_sondagem{{sondagem[0]}}">
+                          Alterar
+                        </button>
+                        <a href="/del_sondagem/{{sondagem[0]}}" class="btn btn-danger btn-xs" onclick="return confirm('Tem certeza que deseja apagar o registro?')">Apagar</a>
+                </td>
+                
             </tr>
+
+        <!-- Modal -->
+                    <div class="modal fade" id="modal_sondagem{{sondagem[0]}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Alteração de Cadastro</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+        <!-- Incluir formulario abaixo -->
+                    <form class="form-group" action="/alt_sondagem" method="post" >
+                    {{form.csrf_token}}
+                    {{form.id_sondagem(value=sondagem[0])}}
+                    <div class="form-group"> 
+                    {{form.materia.label(class="form-control-label", for="materia")}}
+                    {{form.materia(class="form-select", id="materia", value=sondagem[1])}}</div> <br>
+                    <div class="form-group">
+                    {{form.campo_semantico.label(class="form-control-label", for="campo_semantico")}}
+                    {{form.campo_semantico(value=sondagem[2] , class="form-control", id="campo_semantico")}} </div><br>
+                    <div class="form-group">
+                    {{form.valores_ditados.label(class="form-control-label", for="valores_ditados")}}
+                    {{form.valores_ditados(value=sondagem[3] , class="form-control", id="valores_ditados")}} </div><br>
+                    <div iv class="form-group">
+                    {{form.data_sondagem.label(class="form-control-label", for="data_sondagem")}}
+                    {{form.data_sondagem(value=sondagem[4] , class="form-control", id="data_sondagem")}} </div><br>
+                        
+                    {{form.submit_alt(class="btn btn-warning btn-xs")}}
+                    </form>
+
+                    </form>
+
+            <!-- Fim do formulario -->
+                            </form>
+
+
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+
+
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                <!-- Fim da modal acima-->
+
+
+
+        
         {% endfor %}
     </table>    
 
