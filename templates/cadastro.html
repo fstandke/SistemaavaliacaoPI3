@@ -10,7 +10,8 @@
             <div><label class="form-control-label"  for="email_prof">E-mail:</label>
             <input class="form-control" placeholder="Digite o e-mail, por exemplo: professor@email.com.br" type="text" name="email_prof" id="email_prof"</div><br>
 
-            <div><label class="form-control-label" for="telefone">Telefone de contato:</label>
+            <div>
+                <label class="form-control-label" for="telefone">Telefone de contato:                       </label>
             <input class="form-control" placeholder="Digite o telefone, por exemplo: 19 9999-8888"  type="text" name="telefone" id="telefone"></div><br>
             
             <div><label class="form-control-label" for="id_escola">Selecione o ID da escola:</label>
@@ -21,7 +22,7 @@
 
             {% endfor %}
             </select>
-            
+            </div>
             
             <p> <input class="btn btn-secondary" type="submit" value="Cadastrar"></p>
 
@@ -57,7 +58,7 @@
                     {{ prof[3] }}
                 </td>
                 <td>
-                    {{prof[4]}}  
+                    {{prof[4]}} 
                 </td>
 
                 <td>
@@ -91,15 +92,21 @@
                           <div><label class="form-control-label" for="telefone">Telefone de contato:</label>
                           <input class="form-control" type="text" name="telefone" id="telefone" value="{{prof[3]}}"></div><br>
 
-                          <div><label class="form-control-label" for="id_escola">Selecione uma escola:</label>
-                          <select class="form-select form-select-sm mb-3" aria-label="Large select example" id="id_escola" name="id_escola">
-                          <option selected>Escolha uma Escola</option>
-                          {% for escola in escola_list:%}
-                              <option value="{{escola[0]}}">{{escola[1]}}                   </option>
+  <!--Select da opcao que esta gravada no banco de dados-->
+                        
+                          <div><label class="form-control-label" for="id_escola">Selecione uma escola:</label>    
+                          <select class="form-select" form-select-sm mb-3 aria-label="Large select example" id="id_escola" name="id_escola" >
 
+                          {% for escola in escola_list:%}
+                             <option value="{{escola[0]}}" 
+                    {% if escola[0] == prof[4] %}selected{% endif %}>
+                                 {{escola[1]}} </option>
+                            
                           {% endfor %}
                           </select>
-
+                         
+                          </div>
+                         <div> testando</div> 
 
                         <button type="submit" class="btn btn-warning btn-xs">Gravar Alteração</button>
 

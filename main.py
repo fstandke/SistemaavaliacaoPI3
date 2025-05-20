@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from db import getProflist, cad_Prof, cad_Escola, getEscolalist, getTurmalist, cad_Turma, getSondagemlist, cad_Sondagem, getAlunolist, cad_Aluno, getAvaliacaolist, cad_Avaliacao, alt_Escola, del_Escola, alt_Prof, del_Prof, alt_Turma, del_Turma, alt_Aluno, del_Aluno, alt_Sondagem, del_Sondagem
+from db import getProflist, cad_Prof, cad_Escola, getEscolalist, getTurmalist, cad_Turma, getSondagemlist, cad_Sondagem, getAlunolist, cad_Aluno, getAvaliacaolist, cad_Avaliacao, alt_Escola, del_Escola, alt_Prof, del_Prof, alt_Turma, del_Turma, alt_Aluno, del_Aluno, alt_Sondagem, del_Sondagem, alt_Avaliacao, del_Avaliacao
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, DateField, SelectField, HiddenField
 from wtforms.validators import DataRequired
@@ -36,11 +36,13 @@ class AlunoForm(FlaskForm):
     submit_alt = SubmitField('Gravar Alterações')
 
 class AvaliacaoForm(FlaskForm):
+    id_avaliacao = HiddenField()
     data_avaliacao = StringField('Data da Avaliação',validators=[DataRequired()])
     hipotese_escrita = SelectField('Hipótese de Escrita', choices=['Nivel 1','Nivel 2','Nivel 3', 'Nivel 4', 'Nivel 5', 'PRÉ-SILÁBICO', 'SILÁBICO SEM VALOR SONORO', 'SILÁBICO COM VALOR SONORO', 'SILÁBICO ALFABÉTICO','ALFABÉTICO'], validators=[DataRequired()])
     id_aluno = SelectField('Selecione o Aluno', choices=[], coerce=int)
     id_sondagem = SelectField('Escolha uma Sondagem' , choices=[], coerce=int)
     submit = SubmitField('Cadastrar')
+    submit_alt = SubmitField('Gravar Alterações')
 
 @app.route('/')
 def index():
@@ -160,14 +162,14 @@ def delete_escola(id_escola):
 
 #Alterando dados de cadastro do Professor
 @app.route('/update_prof', methods=['POST','GET'])
-def update_prof():
+def update_prof():  
     if request.method == 'POST' :
         id_professor = request.form['id_professor']
         nome_prof = request.form['nome_prof']
         email_prof = request.form['email_prof']
         telefone = request.form['telefone']
         id_escola = request.form.get('id_escola')
-        print(id_professor, nome_prof, email_prof, telefone, id_escola)
+        #print(id_professor, nome_prof, email_prof, telefone, id_escola)
         alt_Prof(id_professor, nome_prof, email_prof, telefone, id_escola)   
         return redirect(url_for('cadastro'))
 
@@ -234,6 +236,29 @@ def alt_sondagem():
 def del_sondagem(id_sondagem):  
         del_Sondagem(id_sondagem)
         return redirect(url_for('cad_sondagem'))
+
+# Alterando dados de cadastro da Avaliacao
+@app.route('/alt_avaliacao', methods=['GET','POST'])
+def alt_avaliacao():
+    avaliacao_list=getAvaliacaolist()
+    form = AvaliacaoForm()
+    #alteracao para incluir lista dinamica do nome do Aluno e Sondagem
+    aluno_list=getAlunolist()
+    sondagem_list=getSondagemlist()
+    #form.id_aluno.choices = [(aluno[0], aluno[1]) for aluno in aluno_list]
+    #form.id_sondagem.choices =[(sondagem[0], sondagem[1]+' / '+sondagem[2]+' / '+sondagem[3]+' / '+sondagem[4]) for sondagem in sondagem_list]
+
+    
+    if form.validate_on_submit():
+        alt_Avaliacao(form.id_avaliacao.data, form.data_avaliacao.data, form.hipotese_escrita.data, form.id_aluno.data, form.id_sondagem.data) 
+        return redirect(url_for('cad_avaliacao'))
+    return render_template('cad_avaliacao.html', avaliacao_list=avaliacao_list, form=form)
+
+#rota para deletar registros da tabela Avaliacao
+@app.route('/del_avaliacao/<string:id_avaliacao>', methods=['GET'])
+def del_avaliacao(id_avaliacao):  
+        del_Avaliacao(id_avaliacao)
+        return redirect(url_for('cad_avaliacao'))
 
 
 if __name__ == '__main__':

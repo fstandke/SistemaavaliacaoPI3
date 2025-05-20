@@ -184,7 +184,7 @@ def getAvaliacaolist():
   conn = psycopg2.connect(os.environ['DATABASE_URL'])
   cur = conn.cursor()
   cur.execute("""
-    SELECT data_avaliacao, hipotese_escrita, avaliacao.id_sondagem, materia, nome_aluno, serie_turma, ano_turma, nome_prof
+    SELECT data_avaliacao, hipotese_escrita, avaliacao.id_sondagem, materia, nome_aluno, serie_turma, ano_turma, nome_prof, id_avaliacao, aluno.id_aluno
     FROM avaliacao 
     INNER JOIN sondagem ON sondagem.id_sondagem = avaliacao.id_sondagem
     INNER JOIN aluno ON avaliacao.id_aluno = aluno.id_aluno
@@ -202,6 +202,24 @@ def cad_Avaliacao(data_avaliacao, hipotese_escrita, id_aluno, id_sondagem):
   conn = psycopg2.connect(os.environ['DATABASE_URL'])
   cur = conn.cursor()
   cur.execute("INSERT INTO avaliacao (data_avaliacao, hipotese_escrita, id_aluno, id_sondagem) VALUES(\'%s\', \'%s\' , \'%s\' , \'%s\');" % (data_avaliacao, hipotese_escrita, id_aluno, id_sondagem))
+  conn.commit()
+  cur.close()
+  conn.close()
+
+#Gravar alteração de dados da Avaliacao no Database
+def alt_Avaliacao(id_avaliacao, data_avaliacao, hipotese_escrita, id_aluno, id_sondagem):
+  conn = psycopg2.connect(os.environ['DATABASE_URL'])
+  cur = conn.cursor()
+  cur.execute("""UPDATE avaliacao SET data_avaliacao=%s, hipotese_escrita=%s, id_aluno=%s, id_sondagem=%s where id_avaliacao=%s """, (data_avaliacao, hipotese_escrita, id_aluno, id_sondagem, id_avaliacao))
+  conn.commit()
+  cur.close()
+  conn.close()
+
+#Deletar registros da Avaliacao no Database
+def del_Avaliacao(id_avaliacao):
+  conn = psycopg2.connect(os.environ['DATABASE_URL'])
+  cur = conn.cursor()
+  cur.execute("""DELETE FROM avaliacao where id_avaliacao=%s""", (id_avaliacao,))
   conn.commit()
   cur.close()
   conn.close()

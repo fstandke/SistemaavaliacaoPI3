@@ -12,8 +12,8 @@
             {{form.id_aluno.label(class="form-control-label", for="id_aluno")}}
             {{form.id_aluno(class="form-select", id="id_aluno")}} </div><br>
         <div class="form-group">
-            {{form.id_sondagem.label(class="form-group", for="id_aluno")}}
-            {{form.id_sondagem(class="form-select", id="id_aluno")}} </div><br>
+            {{form.id_sondagem.label(class="form-group", for="id_sondagem")}}
+            {{form.id_sondagem(class="form-select", id="id_sondagem")}} </div><br>
         
         <div class="form-group">
             {{form.data_avaliacao.label(class="form-control-label", for="data_avaliacao")}}
@@ -56,6 +56,9 @@
             <th>
                 Nome do Professor
             </th>
+            <th>
+                Ações
+            </th>
 
         </tr>
         {% for avaliacao in avaliacao_list:%}
@@ -84,8 +87,67 @@
                 <td>
                     {{ avaliacao[7] }}
                 </td>
-
+                <td>
+                    <button type="button" class="btn btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#modal_avaliacao{{avaliacao[8]}}">
+                          Alterar
+                    </button>
+                        <a href="/del_avaliacao/{{avaliacao[8]}}" class="btn btn-danger btn-xs" onclick="return confirm('Tem certeza que deseja apagar o registro?')">Apagar</a>
+                </td>
+                
             </tr>
+        <!-- Modal -->
+                    <div class="modal fade" id="modal_avaliacao{{avaliacao[8]}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Alteração de Cadastro</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+        <!-- Incluir formulario abaixo -->
+                    <form class="form-group" action="/alt_avaliacao" method="post" >
+                    {{form.csrf_token}}
+                    {{form.id_avaliacao(value=avaliacao[8])}}
+
+                    <div class="form-group">
+                    {{form.id_aluno.label(class="form-control-label", for="id_aluno")}}
+                    {{form.id_aluno(class="form-select", id="id_aluno", value=avaliacao[9])}} </div><br>
+                    <div class="form-group">
+                    {{form.id_sondagem.label(class="form-group", for="id_sondagem")}}
+                    {{form.id_sondagem(class="form-select", id="id_sondagem", value=avaliacao[2])}} </div><br>
+
+                    <div class="form-group">
+                    {{form.data_avaliacao.label(class="form-control-label", for="data_avaliacao")}}
+                    {{form.data_avaliacao(value=avaliacao[0], class="form-control", id="data_avaliacao")}} </div><br>
+                    <div class="form-group">
+                    {{form.hipotese_escrita.label(class="form-control-label", for="hipotese_escrita")}}
+                    {{form.hipotese_escrita(class="form-select", id="hipotese_escrita", value=avaliacao[1])}} </div><br>
+                    <h1>{{avaliacao[4]}}</h1>
+                    
+                    <div class="form-group tab">
+
+                    {{form.submit_alt(class="btn btn-warning btn-xs")}}
+                    </form>
+
+                    </form>
+
+            <!-- Fim do formulario -->
+                     </form>
+
+
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+
+
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                <!-- Fim da modal acima-->
+
+        
         {% endfor %}
     </table>    
 {% endblock %}
