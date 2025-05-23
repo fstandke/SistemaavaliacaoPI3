@@ -98,7 +98,7 @@
                           <select class="form-select" form-select-sm mb-3 aria-label="Large select example" id="id_escola" name="id_escola" >
 
                           {% for escola in escola_list:%}
-                             <option value="{{escola[0]}}" 
+                <option value="{{escola[0]}}" 
                     {% if escola[0] == prof[4] %}selected{% endif %}>
                                  {{escola[1]}} </option>
                             

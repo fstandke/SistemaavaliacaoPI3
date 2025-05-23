@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
-from db import getProflist, cad_Prof, cad_Escola, getEscolalist, getTurmalist, cad_Turma, getSondagemlist, cad_Sondagem, getAlunolist, cad_Aluno, getAvaliacaolist, cad_Avaliacao, alt_Escola, del_Escola, alt_Prof, del_Prof, alt_Turma, del_Turma, alt_Aluno, del_Aluno, alt_Sondagem, del_Sondagem, alt_Avaliacao, del_Avaliacao
+from db import *
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, DateField, SelectField, HiddenField
 from wtforms.validators import DataRequired
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'super-secret-key'
