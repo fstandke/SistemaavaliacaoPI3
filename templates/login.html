@@ -1,1 +1,23 @@
-<h1>teste login</h1>
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<!-- Exibição de mensagens flash -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ 'error' if category == 'error' else category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<form action="" method="post">
+    <input type="email" name="email" placeholder="Insira um email">
+    <input type="password" name="senha" placeholder="********">
+    <input type="submit" value="Logar">
+</form>
+
+{% endblock %}}

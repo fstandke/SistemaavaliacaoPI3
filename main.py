@@ -1,9 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from db import *
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, DateField, SelectField, HiddenField
 from wtforms.validators import DataRequired
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
+import psycopg2
+from psycopg2.extras import RealDictCursor
+import bcrypt
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'super-secret-key'
@@ -59,6 +62,7 @@ def relatorios():
 
 # Cadastro do Professor
 @app.route('/cadastro/')
+@login_required
 def cadastro():
     prof_list=getProflist()
     escola_list=getEscolalist()    
@@ -260,6 +264,117 @@ def alt_avaliacao():
 def del_avaliacao(id_avaliacao):  
         del_Avaliacao(id_avaliacao)
         return redirect(url_for('cad_avaliacao'))
+
+
+
+
+
+
+
+
+
+
+
+
+# Funcionalidade de Login
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+login_manager.login_message = 'Por favor, faça login para acessar esta página.'
+login_manager.login_message_category = 'info'
+
+
+class Usuario(UserMixin):
+    def __init__(self, id_user, email):
+        self.id = id_user
+        self.email = email
+
+    def get_id(self):
+        return str(self.id)
+
+@login_manager.user_loader
+def load_user(id_user):
+    """Carrega o usuário pelo ID"""
+    
+
+    try:
+        conn = psycopg2.connect(os.environ['DATABASE_URL'])
+        cur = conn.cursor()
+        #cursor = conn.cursor(cursor_factory=RealDictCursor)
+        query = "SELECT id_user, senha FROM login WHERE id_user = %s"
+        cur.execute(query, (id_user,))
+        user_data = cur.fetchone()
+        
+        if user_data:
+            #print('userdata:',user_data)
+            return Usuario(user_data[0], user_data[1])
+        return None
+
+    except psycopg2.Error as e:
+        print(f"Erro ao carregar usuário: {e}")
+        return None
+
+    finally:
+        cur.close()
+        conn.close()
+
+
+
+
+# rota para tela de login
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        senha = (request.form['senha'])
+        #print('email , senha formulatio:', email,senha)
+        
+        #user = User.query.filter_by(email=email).first()
+        conn = psycopg2.connect(os.environ['DATABASE_URL'])
+        cur = conn.cursor()
+        #cursor = conn.cursor(cursor_factory=RealDictCursor)
+        query = "SELECT id_user, senha FROM login WHERE email = %s"
+        cur.execute(query, (email,))
+        user_data = cur.fetchone()
+        #print('user data:', user_data)
+
+    
+        if not email or not senha:
+            flash('Email e senha são obrigatórios.', 'error')
+            return render_template('login.html')
+
+        if user_data[1] == senha:
+            user = Usuario(user_data[0], email)
+            if current_user.is_authenticated: 
+                #print('esta autenticado')
+            login_user(user)
+            
+            next_page = request.args.get('next')
+            flash(f'Login realizado com sucesso! Bem-vindo, {user.email}', 'success')
+            return redirect(next_page) if next_page else redirect(url_for('sobre'))
+            
+
+        else:
+            flash('Email ou senha incorretos.', 'error')
+            return render_template('login.html')
+
+    return render_template('login.html')
+
+
+# Rota Logout
+@app.route('/logout')
+@login_required
+def logout():
+    """Logout do usuário"""
+    logout_user()
+    flash('Você foi desconectado com sucesso.', 'info')
+    return redirect(url_for('login'))
+
+
+
+
+
 
 
 if __name__ == '__main__':

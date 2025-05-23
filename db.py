@@ -223,3 +223,4 @@ def del_Avaliacao(id_avaliacao):
   conn.commit()
   cur.close()
   conn.close()
+
