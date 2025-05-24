@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from db import *
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, DateField, SelectField, HiddenField
@@ -57,6 +57,7 @@ def sobre():
     return render_template('sobre.html')
 
 @app.route('/relatorios')
+@login_required
 def relatorios():
     return render_template('relatorios.html')
 
@@ -78,6 +79,7 @@ def cad_professor():
     return redirect(url_for('cadastro'))
 
 @app.route('/cad_escola')
+@login_required
 def escola():
     escola_list=getEscolalist()
     return render_template('cad_escola.html',escola_list=escola_list)
@@ -94,6 +96,7 @@ def cad_escola():
 
 # Cadastro da Turma
 @app.route('/cad_turma', methods=['GET','POST'])
+@login_required
 def turma():
     turma_list=getTurmalist()
     form = TurmaForm()
@@ -108,6 +111,7 @@ def turma():
 
 #Cadastro da Sondagem
 @app.route('/cad_sondagem', methods=['GET','POST'])
+@login_required
 def cad_sondagem():
     sondagem_list=getSondagemlist()
     form = SondagemForm()
@@ -118,6 +122,7 @@ def cad_sondagem():
 
 #Cadastro de Aluno
 @app.route('/cad_aluno', methods=['GET','POST'])
+@login_required
 def cad_aluno():
     aluno_list=getAlunolist()
     form = AlunoForm()
@@ -132,6 +137,7 @@ def cad_aluno():
 
 #Cadastro de Avaliação
 @app.route('/cad_avaliacao', methods=['GET','POST'])
+@login_required
 def cad_avaliacao():
     avaliacao_list=getAvaliacaolist()
     form = AvaliacaoForm()
@@ -284,6 +290,16 @@ login_manager.login_view = 'login'
 login_manager.login_message = 'Por favor, faça login para acessar esta página.'
 login_manager.login_message_category = 'info'
 
+# limpar mensagens flash
+def clear_flash_messages():
+    """Limpa todas as mensagens flash existentes"""
+    session.pop('_flashes', None)
+
+def flash_message(message, category='info'):
+    """Adiciona uma mensagem flash após limpar as anteriores"""
+    clear_flash_messages()
+    flash(message, category)
+
 
 class Usuario(UserMixin):
     def __init__(self, id_user, email):
@@ -339,24 +355,27 @@ def login():
         user_data = cur.fetchone()
         #print('user data:', user_data)
 
-    
+        if not user_data:
+            flash_message('Email ou senha incorretos.', 'info')
+            return render_template('login.html')
+            
         if not email or not senha:
-            flash('Email e senha são obrigatórios.', 'error')
+            flash_message('Email e senha são obrigatórios.', 'info')
             return render_template('login.html')
 
         if user_data[1] == senha:
             user = Usuario(user_data[0], email)
-            if current_user.is_authenticated: 
+            #if current_user.is_authenticated: 
                 #print('esta autenticado')
             login_user(user)
             
             next_page = request.args.get('next')
-            flash(f'Login realizado com sucesso! Bem-vindo, {user.email}', 'success')
+            flash_message(f'Login realizado com sucesso! Bem-vindo, {user.email}', 'success')
             return redirect(next_page) if next_page else redirect(url_for('sobre'))
             
 
         else:
-            flash('Email ou senha incorretos.', 'error')
+            flash_message('Email ou senha incorretos.', 'info')
             return render_template('login.html')
 
     return render_template('login.html')
@@ -368,8 +387,9 @@ def login():
 def logout():
     """Logout do usuário"""
     logout_user()
-    flash('Você foi desconectado com sucesso.', 'info')
-    return redirect(url_for('login'))
+    #flash_message('Você foi desconectado com sucesso.', 'info')
+    session.pop('_flashes', None)
+    return redirect(url_for('index'))
 
 
 

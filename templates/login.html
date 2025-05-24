@@ -6,18 +6,40 @@
 <!-- Exibição de mensagens flash -->
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-        {% for category, message in messages %}
-            <div class="alert alert-{{ 'error' if category == 'error' else category }}">
-                {{ message }}
+       {% for category, message in messages %}
+
+
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{ message }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+
+     
+              
             </div>
         {% endfor %}
     {% endif %}
 {% endwith %}
 
+<br>
 <form action="" method="post">
-    <input type="email" name="email" placeholder="Insira um email">
+    <!--<input type="email" name="email" placeholder="Insira um email">
     <input type="password" name="senha" placeholder="********">
-    <input type="submit" value="Logar">
+    <input type="submit" class="btn btn-primary" value="Logar"> -->
+ 
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="inputGroup-sizing-default">Digite seu e-mail </span>
+      <input type="email" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="email">
+    </div>
+
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="inputGroup-sizing-default">Digite sua senha </span>
+      <input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="senha">
+    </div>
+    <input type="submit" class="btn btn-primary" value="Logar">
+    
+
 </form>
 
 {% endblock %}}
